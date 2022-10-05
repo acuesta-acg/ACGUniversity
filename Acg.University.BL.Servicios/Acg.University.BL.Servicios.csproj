@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Acg.University.DAL.Entidades\Acg.University.DAL.Entidades.csproj" />
+    <ProjectReference Include="..\Acg.University.DAL.SqlServer\Acg.University.DAL.SqlServer.csproj" />
+  </ItemGroup>
+
+</Project>
