@@ -11,15 +11,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Teoria", "Teoria", "{B2D82B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IU", "IU", "{45044699-8647-48D5-B3AC-B45602F3D326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acg.University.DAL.SqlServer", "Acg.University.DAL.SqlServer\Acg.University.DAL.SqlServer.csproj", "{0092F1E8-245F-4227-99B4-ADBFADF5C5FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acg.University.DAL.SqlServer", "Acg.University.DAL.SqlServer\Acg.University.DAL.SqlServer.csproj", "{0092F1E8-245F-4227-99B4-ADBFADF5C5FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acg.University.DAL.Entidades", "Acg.University.DAL.Entidades\Acg.University.DAL.Entidades.csproj", "{6494F281-8CEF-41E9-BD45-5EE4BBA16C9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acg.University.DAL.Entidades", "Acg.University.DAL.Entidades\Acg.University.DAL.Entidades.csproj", "{6494F281-8CEF-41E9-BD45-5EE4BBA16C9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruBaseDatos", "PruBaseDatos\PruBaseDatos.csproj", "{2A622A1E-1401-442B-847E-1870ABACCA9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruBaseDatos", "PruBaseDatos\PruBaseDatos.csproj", "{2A622A1E-1401-442B-847E-1870ABACCA9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acg.University.BL.Servicios", "Acg.University.BL.Servicios\Acg.University.BL.Servicios.csproj", "{FC9D0EA8-E6E2-4518-A32C-EA5A03591315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acg.University.BL.Servicios", "Acg.University.BL.Servicios\Acg.University.BL.Servicios.csproj", "{FC9D0EA8-E6E2-4518-A32C-EA5A03591315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acg.University.BL.Contratos", "Acg.University.BL.Contratos\Acg.University.BL.Contratos.csproj", "{CFDE2B45-99B6-4CD5-9B6F-4E394697F0DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acg.University.BL.Contratos", "Acg.University.BL.Contratos\Acg.University.BL.Contratos.csproj", "{CFDE2B45-99B6-4CD5-9B6F-4E394697F0DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basura", "Basura", "{F6191A0D-078D-4F7A-82E4-9693AE1F3FCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseDatos", "BaseDatos\BaseDatos.csproj", "{6AAA939A-2425-4FBE-817D-51EC511AF449}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acg.University.DAL.MongoDB", "Acg.University.DAL.MongoDB\Acg.University.DAL.MongoDB.csproj", "{BBBDD3AE-90D2-4AD3-BB42-10CD7ADD6A91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruID", "PruID\PruID.csproj", "{FBA2CF33-D303-4D00-B3B1-F5D7AC4C7B8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +55,18 @@ Global
 		{CFDE2B45-99B6-4CD5-9B6F-4E394697F0DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFDE2B45-99B6-4CD5-9B6F-4E394697F0DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFDE2B45-99B6-4CD5-9B6F-4E394697F0DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AAA939A-2425-4FBE-817D-51EC511AF449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AAA939A-2425-4FBE-817D-51EC511AF449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AAA939A-2425-4FBE-817D-51EC511AF449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AAA939A-2425-4FBE-817D-51EC511AF449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBBDD3AE-90D2-4AD3-BB42-10CD7ADD6A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBDD3AE-90D2-4AD3-BB42-10CD7ADD6A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBDD3AE-90D2-4AD3-BB42-10CD7ADD6A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBDD3AE-90D2-4AD3-BB42-10CD7ADD6A91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBA2CF33-D303-4D00-B3B1-F5D7AC4C7B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBA2CF33-D303-4D00-B3B1-F5D7AC4C7B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBA2CF33-D303-4D00-B3B1-F5D7AC4C7B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBA2CF33-D303-4D00-B3B1-F5D7AC4C7B8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +77,9 @@ Global
 		{2A622A1E-1401-442B-847E-1870ABACCA9B} = {B2D82BA1-525B-4F71-AA51-D1D64DB4FE43}
 		{FC9D0EA8-E6E2-4518-A32C-EA5A03591315} = {B1CEE2F7-5964-4CC1-BADB-473761A22C04}
 		{CFDE2B45-99B6-4CD5-9B6F-4E394697F0DC} = {B1CEE2F7-5964-4CC1-BADB-473761A22C04}
+		{6AAA939A-2425-4FBE-817D-51EC511AF449} = {F6191A0D-078D-4F7A-82E4-9693AE1F3FCF}
+		{BBBDD3AE-90D2-4AD3-BB42-10CD7ADD6A91} = {E82A3148-28F7-4458-994C-65EA41FBEDD1}
+		{FBA2CF33-D303-4D00-B3B1-F5D7AC4C7B8A} = {B2D82BA1-525B-4F71-AA51-D1D64DB4FE43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7697F9F9-4EDD-445F-874B-CD8E377597CE}

@@ -36,28 +36,52 @@ namespace Acg.University.BL.Servicios
             return usr.Id;
         }
 
+        public void ModificarPwd(int id, string pwd) => ModificarPwdAsync(id, pwd).GetAwaiter().GetResult();
+
+        public async Task ModificarPwdAsync(int id, string pwd)
+        {
+            var usr = _context.Usuarios.Where(u => u.Id == id).FirstOrDefault();
+
+            if (usr != null)
+            {
+                usr.Passwd = pwd;
+
+                _context.Usuarios.Update(usr);
+                _context.SaveChanges();
+            }
+        }
         public int NuevoUsuario(string login, string pwd, string rol) =>
             NuevoUsuarioAsync(login, pwd, rol).GetAwaiter().GetResult();
 
         public async Task<int> NuevoUsuarioAsync(string login, string pwd, string rol)
         {
-            var usr = new Usuario()
-            {
-                Login = login,
-                Passwd = pwd,
-                Roles = new List<Rol>() { new Rol() { Nombre = "Admin" } }
-            };
+            var usr = await _context.Usuarios.Include("Roles").Where(x => x.Login == login).FirstOrDefaultAsync() ??
+                new Usuario()
+                {
+                    Login = login,
+                    Passwd = pwd,
+                    Roles = new List<Rol>()
+                };
 
-            try
-            {
-                await _context.Usuarios.AddAsync(usr);
-                await _context.SaveChangesAsync();
-            }
-            catch
-            {
-                return -1;
-            }
+            if (usr.Id > 0)
+                foreach (var role in usr.Roles)
+                    if (role.Nombre == rol)
+                        return 0;
 
+                var r = await _context.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync();
+
+
+                usr.Roles.Add(r ?? new Rol() { Nombre = rol });
+
+                try
+                {
+                    await _context.Usuarios.AddAsync(usr);
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    return -1;
+                }
             return usr.Id;
         }
 
@@ -86,6 +110,19 @@ namespace Acg.University.BL.Servicios
         public async Task<Usuario?> LoginAsync(string login, string pwd) =>
             await _context.Usuarios.Where(u => u.Login == login && u.Passwd == pwd).FirstOrDefaultAsync();
 
+        public void BorrarUsuario(int id) => BorrarUsuarioAsync(id).GetAwaiter().GetResult();
+        public async Task BorrarUsuarioAsync(int id)
+        {
+            var u =  await _context.Usuarios.Include("Roles").Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (u!= null)
+            {
+                _context.Usuarios.Remove(u);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        #region Parte de los roles
         public int NuevoRol(string nombre) => NuevoRolAsync(nombre).GetAwaiter().GetResult();
 
         public async Task<int> NuevoRolAsync(string nombre)
@@ -104,5 +141,10 @@ namespace Acg.University.BL.Servicios
 
             return rol.Id;
         }
+
+        public async Task<Rol?> ConsultarRolAsync(int id) =>
+            await _context.Roles.AsNoTracking().Where(u => u.Id == id).FirstOrDefaultAsync();
+
+        #endregion
     }
 }
