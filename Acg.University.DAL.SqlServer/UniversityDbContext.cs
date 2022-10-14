@@ -11,10 +11,27 @@ namespace Acg.University.DAL.SqlServer
 {
     public class UniversityDbContext : DbContext
     {
+        public virtual DbSet<Asignatura> Asignaturas { get; set; }
+        public virtual DbSet<Curso> Cursos { get; set; }
+        public virtual DbSet<Titulacion> Titulaciones { get; set; }
         public virtual DbSet<CuantosTelPersona> CuantosTelefonos {get; set; }
         public virtual DbSet<Persona> Personas { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Rol> Roles { get; set; }
+        public DbSet<Administrador> Administradores { get; set; }
+        public DbSet<Profesor> Profesores { get; set; }
+        public DbSet<Alumno> Alumnos { get; set; }
+        public DbSet<Investigador> Investigadores { get; set; }
+        public DbSet<CursoAcademico> CursosAcademicos { get; set; }
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<Examen> Examenes { get; set; }
+        public DbSet<ExamenAlumno> ExamenesAlumnos { get; set; }
+        public DbSet<Matricula> Matriculas { get; set; }
+        public DbSet<ProfesorAsignatura> ProfesoresAsignaturas { get; set; }
+        public DbSet<Proyecto> Proyectos { get; set; }
+        public DbSet<PlantillaExamen> PlantillasExamen { get; set; }
+        public DbSet<PreguntaPlantilla> PreguntasPlantilla { get; set; }
+        public DbSet<RespuestaPlantilla> RespuestaPlantillas { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder opciones)
         {
             if (!opciones.IsConfigured)
@@ -25,6 +42,18 @@ namespace Acg.University.DAL.SqlServer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Matricula>(entity =>
+            {
+                entity.ToTable("Matriculas");
+                entity.HasKey(t => new { t.CursoAcademicoId, t.AlumnoId, t.AsignaturaId });
+            });
+
+            modelBuilder.Entity<ProfesorAsignatura>(entity =>
+            {
+                entity.ToTable("ProfesoresAsignaturas");
+                entity.HasKey(t => new { t.CursoAcademicoId, t.ProfesorId, t.AsignaturaId });
+            });
+
             modelBuilder.Entity<CuantosTelPersona>(e =>
             {
                 e.HasNoKey();

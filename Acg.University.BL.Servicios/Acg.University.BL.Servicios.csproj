@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Acg.University.BL.Contratos\Acg.University.BL.Contratos.csproj" />
     <ProjectReference Include="..\Acg.University.DAL.Entidades\Acg.University.DAL.Entidades.csproj" />
     <ProjectReference Include="..\Acg.University.DAL.MongoDB\Acg.University.DAL.MongoDB.csproj" />
     <ProjectReference Include="..\Acg.University.DAL.SqlServer\Acg.University.DAL.SqlServer.csproj" />

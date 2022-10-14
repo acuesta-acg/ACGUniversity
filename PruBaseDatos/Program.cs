@@ -5,6 +5,7 @@ using Acg.University.DAL.MongoDB.Modelos;
 
 Console.WriteLine("----   pruebas con nuestra base de datos  ------------");
 
+RevisarServicioPersonas();
 //var sUsr = new ServUsuarios(new UniversityDbContext());
 //int idUsr = sUsr.NuevoUsuario("antonio", "Hola", "Admin");
 
@@ -75,6 +76,21 @@ foreach (var usr in l2)
 // Console.WriteLine((idUsr <0) ? "No se ha creado el usuario" : $"El Id {idUsr}  del usuario nuevo");
 //Console.WriteLine((idRol < 0) ? "No se ha creado el rol" : $"El Id {idRol}  del rol nuevo");
 
+static void RevisarServicioPersonas()
+{
+    ServPersonas sp = new ServPersonas(new UniversityDbContext());
+    sp.NuevoAdministrador("12123123H","nombre","direc","poblac","prov","324234","adsfasdf","dafasdf","usuario1", "Hola");
+
+    var l = sp.ListaAdministradores();
+    var a = sp.ConsultarAdministrador(l[0].Id);
+    sp.ModificarAdministrador(a.Id, a.Persona.DNI, "Nuevo nombre",
+        a.Persona.Direccion, a.Persona.Poblacion,
+        a.Persona.Provincia,
+        a.Persona.CodPostal,
+        a.Persona.EMail,
+        a.Persona.Telefonos[0].Numero);
+    sp.BorrarAdministrador(a.Id);
+}
 
 Console.WriteLine("--------------------------------------------------------");
 
