@@ -32,6 +32,16 @@ namespace Acg.University.DAL.SqlServer
         public DbSet<PlantillaExamen> PlantillasExamen { get; set; }
         public DbSet<PreguntaPlantilla> PreguntasPlantilla { get; set; }
         public DbSet<RespuestaPlantilla> RespuestaPlantillas { get; set; }
+
+        public UniversityDbContext()
+        {
+
+        }
+
+        public UniversityDbContext(DbContextOptions<UniversityDbContext> options) : base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder opciones)
         {
             if (!opciones.IsConfigured)
