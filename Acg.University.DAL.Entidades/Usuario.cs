@@ -9,9 +9,6 @@ using System.Threading.Tasks;
 
 namespace Acg.University.DAL.Entidades
 {
-
-    // Data anotations
-    // Fluent Api
     [Table(name: "Usuarios")]
     [Index(nameof(Login), IsUnique = true)]
     public class Usuario

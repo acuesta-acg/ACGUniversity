@@ -1,7 +1,10 @@
 ﻿using Acg.University.BL.Contratos;
 using Acg.University.DAL.Entidades;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Text.RegularExpressions;
 using UniversityAPI.Views;
 
@@ -11,14 +14,16 @@ namespace UniversityAPI.Controllers
     [ApiController]
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
-
+    //[Authorize(Roles = "Admin")]
     public class AdministradoresController : ControllerBase
     {
         private readonly IServPersonas _servPersonas;
+        private readonly IDataProtector _prot;
 
-        public AdministradoresController(IServPersonas servPersonas)
+        public AdministradoresController(IServPersonas servPersonas, IDataProtectionProvider prov)
         {
             _servPersonas = servPersonas;
+            _prot = prov.CreateProtector("sdafasdfasdf");
         }
 
         /*
@@ -39,6 +44,9 @@ namespace UniversityAPI.Controllers
         [MapToApiVersion("1.0")]
         public async Task<IActionResult> Lista()
         {
+            var txt = _prot.Protect("Hola soy Coco...");
+            var txt2 = _prot.Unprotect(txt);
+
             var l =(await _servPersonas.ListaAdministradoresAsync())
                .Select(x => new AdministradorVM()
                {
@@ -108,6 +116,7 @@ namespace UniversityAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Borrar(int id)
         {
             await _servPersonas.BorrarAdministradorAsync(id);

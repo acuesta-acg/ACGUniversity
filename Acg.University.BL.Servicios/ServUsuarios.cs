@@ -13,12 +13,10 @@ namespace Acg.University.BL.Servicios
 {
     public class ServUsuarios : IServUsuarios
     {
-        private UniversityDbContext _context;
+        private UniversityDbContext _contexto;
 
-        public ServUsuarios(UniversityDbContext context)
-        {
-            _context = context;
-        }
+        public ServUsuarios(UniversityDbContext contexto) => _contexto = contexto;
+
         public int NuevoUsuario(string login, string pwd) => NuevoUsuarioAsync(login, pwd).GetAwaiter().GetResult();
         
         public async Task<int> NuevoUsuarioAsync(string login, string pwd)
@@ -27,8 +25,8 @@ namespace Acg.University.BL.Servicios
 
             try
             {
-                await _context.Usuarios.AddAsync(usr);
-                await _context.SaveChangesAsync();
+                await _contexto.Usuarios.AddAsync(usr);
+                await _contexto.SaveChangesAsync();
             }
             catch
             {
@@ -42,14 +40,14 @@ namespace Acg.University.BL.Servicios
 
         public async Task ModificarPwdAsync(int id, string pwd)
         {
-            var usr = await _context.Usuarios.Where(u => u.Id == id).FirstOrDefaultAsync();
+            var usr = await _contexto.Usuarios.Where(u => u.Id == id).FirstOrDefaultAsync();
 
             if (usr != null)
             {
                 usr.Passwd = pwd;
 
-                _context.Usuarios.Update(usr);
-                await _context.SaveChangesAsync();
+                _contexto.Usuarios.Update(usr);
+                await _contexto.SaveChangesAsync();
             }
         }
         public int NuevoUsuario(string login, string pwd, string rol) =>
@@ -57,7 +55,7 @@ namespace Acg.University.BL.Servicios
 
         public async Task<int> NuevoUsuarioAsync(string login, string pwd, string rol)
         {
-            var usr = await _context.Usuarios.Include("Roles").Where(x => x.Login == login).FirstOrDefaultAsync() ??
+            var usr = await _contexto.Usuarios.Include("Roles").Where(x => x.Login == login).FirstOrDefaultAsync() ??
                 new Usuario()
                 {
                     Login = login,
@@ -70,15 +68,15 @@ namespace Acg.University.BL.Servicios
                     if (role.Nombre == rol)
                         return 0;
 
-                var r = await _context.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync();
+                var r = await _contexto.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync();
 
 
                 usr.Roles.Add(r ?? new Rol() { Nombre = rol });
 
                 try
                 {
-                    await _context.Usuarios.AddAsync(usr);
-                    await _context.SaveChangesAsync();
+                    await _contexto.Usuarios.AddAsync(usr);
+                    await _contexto.SaveChangesAsync();
                 }
                 catch
                 {
@@ -89,48 +87,55 @@ namespace Acg.University.BL.Servicios
 
         public Usuario? ConsultarUsuario(int id) =>
             ConsultarUsuarioAsync(id).GetAwaiter().GetResult();
-        
+
         public async Task<Usuario?> ConsultarUsuarioAsync(int id) =>
-            await _context.Usuarios.AsNoTracking().Include("Roles").Where(u => u.Id == id).FirstOrDefaultAsync();
+            await _contexto.Usuarios.AsNoTracking()
+            .Include("Roles").Where(u => u.Id == id).FirstOrDefaultAsync();
 
         public List<Usuario> ListaUsuarios() =>
             ListaUsuariosAsync().GetAwaiter().GetResult();
 
         public async Task<List<Usuario>> ListaUsuariosAsync() =>
-            (await _context.Usuarios.AsNoTracking().Include("Roles").ToListAsync()).Select(x =>
+            (await _contexto.Usuarios.AsNoTracking().Include("Roles").ToListAsync()).Select(x =>
             new Usuario() { Id = x.Id, Login = x.Login, Passwd ="De palo", Roles = x.Roles }).ToList();
-      
-        public Usuario? ConsultarUsuario(string login) => _context.Usuarios.Where(u => u.Login == login).FirstOrDefault();
+
+        public Usuario? ConsultarUsuario(string login) => ConsultarUsuarioAsync(login).GetAwaiter().GetResult();
 
         public async Task<Usuario?> ConsultarUsuarioAsync(string login) =>
-            await _context.Usuarios.Where(u => u.Login == login).FirstOrDefaultAsync();
+            await _contexto.Usuarios.Where(u => u.Login == login).FirstOrDefaultAsync();
 
-        public Usuario? Login(string login, string pwd) =>
-            _context.Usuarios.Where(u => u.Login == login && u.Passwd == pwd).FirstOrDefault();
+        public Usuario? Login(string login, string pwd) => LoginAsync(login, pwd).GetAwaiter().GetResult();
 
         public async Task<Usuario?> LoginAsync(string login, string pwd) =>
-            await _context.Usuarios.Where(u => u.Login == login && u.Passwd == pwd).FirstOrDefaultAsync();
+            await _contexto.Usuarios.Include("Roles").Where(u => u.Login == login && u.Passwd == txt2txtHash(pwd)).FirstOrDefaultAsync();
+        public Usuario? LoginMalo(string login, string pwd) => LoginMaloAsync(login, pwd).GetAwaiter().GetResult();
+
+        public async Task<Usuario?> LoginMaloAsync(string login, string pwd) =>
+            await _contexto.Usuarios
+            .FromSqlRaw("SELECT * FROM Usuarios WHERE Login='" + login + "' AND Passwd='" + txt2txtHash(pwd) + "'")
+            .Include("Roles")
+            .FirstOrDefaultAsync();
 
         public void BorrarUsuario(int id) => BorrarUsuarioAsync(id).GetAwaiter().GetResult();
         public async Task BorrarUsuarioAsync(int id)
         {
-            var u =  await _context.Usuarios.Include("Roles").Where(x => x.Id == id).FirstOrDefaultAsync();
+            var u =  await _contexto.Usuarios.Include("Roles").Where(x => x.Id == id).FirstOrDefaultAsync();
 
             if (u!= null)
             {
-                _context.Usuarios.Remove(u);
-                await _context.SaveChangesAsync();
+                _contexto.Usuarios.Remove(u);
+                await _contexto.SaveChangesAsync();
             }
         }
         public void BorrarUsuario(string login) => BorrarUsuarioAsync(login).GetAwaiter().GetResult();
         public async Task BorrarUsuarioAsync(string login)
         {
-            var u = await _context.Usuarios.Include("Roles").Where(x => x.Login == login).FirstOrDefaultAsync();
+            var u = await _contexto.Usuarios.Include("Roles").Where(x => x.Login == login).FirstOrDefaultAsync();
 
             if (u != null)
             {
-                _context.Usuarios.Remove(u);
-                await _context.SaveChangesAsync();
+                _contexto.Usuarios.Remove(u);
+                await _contexto.SaveChangesAsync();
             }
         }
 
@@ -138,17 +143,17 @@ namespace Acg.University.BL.Servicios
 
         public async Task AsignarRolUsuarioAsync(int idUsr, string rol)
         {
-            var u = await _context.Usuarios.Where(x => x.Id == idUsr).Include("Roles").FirstOrDefaultAsync();
+            var u = await _contexto.Usuarios.Where(x => x.Id == idUsr).Include("Roles").FirstOrDefaultAsync();
 
             if (u != null)
             {
-                var r = await _context.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync() ?? new Rol() { Nombre = rol};
+                var r = await _contexto.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync() ?? new Rol() { Nombre = rol};
 
                 if (!u.Roles.Contains(r))
                 {
                     u.Roles.Add(r);
-                    _context.Usuarios.Update(u);
-                    await _context.SaveChangesAsync();
+                    _contexto.Usuarios.Update(u);
+                    await _contexto.SaveChangesAsync();
                 }
             }
         }
@@ -157,17 +162,17 @@ namespace Acg.University.BL.Servicios
 
         public async Task AsignarRolUsuarioAsync(string login, string rol)
         {
-            var u = await _context.Usuarios.Where(x => x.Login == login).Include("Roles").FirstOrDefaultAsync();
+            var u = await _contexto.Usuarios.Where(x => x.Login == login).Include("Roles").FirstOrDefaultAsync();
 
             if (u != null)
             {
-                var r = await _context.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync() ?? new Rol() { Nombre = rol };
+                var r = await _contexto.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync() ?? new Rol() { Nombre = rol };
 
                 if (!u.Roles.Contains(r))
                 {
                     u.Roles.Add(r);
-                    _context.Usuarios.Update(u);
-                    await _context.SaveChangesAsync();
+                    _contexto.Usuarios.Update(u);
+                    await _contexto.SaveChangesAsync();
                 }
             }
         }
@@ -175,17 +180,17 @@ namespace Acg.University.BL.Servicios
         public void BorrarRolUsuario(int idUsr, string rol) => BorrarRolUsuarioAsync(idUsr, rol).GetAwaiter().GetResult();
         public async Task BorrarRolUsuarioAsync(int idUsr, string rol)
         {
-            var u = await _context.Usuarios.Where(x => x.Id == idUsr).Include("Roles").FirstOrDefaultAsync();
+            var u = await _contexto.Usuarios.Where(x => x.Id == idUsr).Include("Roles").FirstOrDefaultAsync();
 
             if (u != null)
             {
-                var r = await _context.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync();
+                var r = await _contexto.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync();
                 if (r != null)
                 {
                     if (!u.Roles.Contains(r))
                     {
                         u.Roles.Remove(r);
-                        await _context.SaveChangesAsync();
+                        await _contexto.SaveChangesAsync();
                     }
                 }
             }
@@ -193,16 +198,16 @@ namespace Acg.University.BL.Servicios
         public void BorrarRolUsuario(string login, string rol) => BorrarRolUsuarioAsync(login, rol).GetAwaiter().GetResult();
         public async Task BorrarRolUsuarioAsync(string login, string rol)
         {
-            var u = await _context.Usuarios.Where(x => x.Login == login).Include("Roles").FirstOrDefaultAsync();
+            var u = await _contexto.Usuarios.Where(x => x.Login == login).Include("Roles").FirstOrDefaultAsync();
             if (u != null)
             {
-                var r = await _context.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync();
+                var r = await _contexto.Roles.Where(x => x.Nombre == rol).FirstOrDefaultAsync();
                 if (r != null)
                 {
                     if (!u.Roles.Contains(r))
                     {
                         u.Roles.Remove(r);
-                        await _context.SaveChangesAsync();
+                        await _contexto.SaveChangesAsync();
                     }
                 }
             }
@@ -217,8 +222,8 @@ namespace Acg.University.BL.Servicios
 
             try
             {
-                await _context.Roles.AddAsync(rol);
-                await _context.SaveChangesAsync();
+                await _contexto.Roles.AddAsync(rol);
+                await _contexto.SaveChangesAsync();
             }
             catch
             {
@@ -230,31 +235,31 @@ namespace Acg.University.BL.Servicios
 
         public Rol? ConsultarRol(int id) => ConsultarRolAsync(id).GetAwaiter().GetResult();
         public async Task<Rol?> ConsultarRolAsync(int id) =>
-            await _context.Roles.AsNoTracking().Where(u => u.Id == id).FirstOrDefaultAsync();
+            await _contexto.Roles.AsNoTracking().Where(u => u.Id == id).FirstOrDefaultAsync();
 
         public List<Rol> ListaRoles() => ListaRolesAsync().GetAwaiter().GetResult();
         public async Task<List<Rol>> ListaRolesAsync() =>
-            await _context.Roles.AsNoTracking().ToListAsync();
+            await _contexto.Roles.AsNoTracking().ToListAsync();
 
         public void BorrarRol(int id) => BorrarRolAsync(id).GetAwaiter().GetResult();
         public async Task BorrarRolAsync(int id)
         {
-            var r = await _context.Roles.Where(r => r.Id == id).FirstOrDefaultAsync();
+            var r = await _contexto.Roles.Where(r => r.Id == id).FirstOrDefaultAsync();
             if (r != null)
             {
-                _context.Roles.Remove(r);
-                await _context.SaveChangesAsync();
+                _contexto.Roles.Remove(r);
+                await _contexto.SaveChangesAsync();
             }
         }
 
         public void BorrarRol(string rol) => BorrarRolAsync(rol).GetAwaiter().GetResult();
         public async Task BorrarRolAsync(string rol)
         {
-            var r = await _context.Roles.Where(r => r.Nombre == rol).FirstOrDefaultAsync();
+            var r = await _contexto.Roles.Where(r => r.Nombre == rol).FirstOrDefaultAsync();
             if (r != null)
             {
-                _context.Roles.Remove(r);
-                await _context.SaveChangesAsync();
+                _contexto.Roles.Remove(r);
+                await _contexto.SaveChangesAsync();
             }
         }
 

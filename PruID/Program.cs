@@ -15,6 +15,8 @@ t2.MandarNotas();
  */
 // using IHost h = Host.CreateDefaultBuilder(args)
 
+
+
 using var h = Host.CreateDefaultBuilder(args)
                .ConfigureServices((_, services) =>
                     services.AddTransient<IServTransient, TratamientoExamenes>()
@@ -22,6 +24,8 @@ using var h = Host.CreateDefaultBuilder(args)
                     .AddSingleton<IServSingleton, TratamientoExamenes>()
                     .AddTransient<LogTratamientoExamenes>()         // Transient para que se cree siempre una nueva instancia.
                ).Build();
+
+
 
 Console.WriteLine("---------   Ejecutar(h.Services, \"scope 1\")   -----------------------");
 Ejecutar(h.Services, "scope 1");

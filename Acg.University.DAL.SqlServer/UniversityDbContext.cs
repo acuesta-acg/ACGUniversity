@@ -11,13 +11,13 @@ namespace Acg.University.DAL.SqlServer
 {
     public class UniversityDbContext : DbContext
     {
-        public virtual DbSet<Asignatura> Asignaturas { get; set; }
-        public virtual DbSet<Curso> Cursos { get; set; }
-        public virtual DbSet<Titulacion> Titulaciones { get; set; }
-        public virtual DbSet<CuantosTelPersona> CuantosTelefonos {get; set; }
-        public virtual DbSet<Persona> Personas { get; set; }
-        public virtual DbSet<Usuario> Usuarios { get; set; }
-        public virtual DbSet<Rol> Roles { get; set; }
+        public DbSet<Asignatura> Asignaturas { get; set; }
+        public DbSet<Curso> Cursos { get; set; }
+        public DbSet<Titulacion> Titulaciones { get; set; }
+        public DbSet<CuantosTelPersona> CuantosTelefonos {get; set; }
+        public DbSet<Persona> Personas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
         public DbSet<Alumno> Alumnos { get; set; }
@@ -47,7 +47,7 @@ namespace Acg.University.DAL.SqlServer
             if (!opciones.IsConfigured)
                 opciones.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ACGUniversity;Integrated Security=True");
 
-            opciones.LogTo(x => Console.WriteLine(x));
+            // opciones.LogTo(x => Console.WriteLine(x));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

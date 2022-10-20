@@ -76,6 +76,9 @@ foreach (var usr in l2)
 // Console.WriteLine((idUsr <0) ? "No se ha creado el usuario" : $"El Id {idUsr}  del usuario nuevo");
 //Console.WriteLine((idRol < 0) ? "No se ha creado el rol" : $"El Id {idRol}  del rol nuevo");
 
+ServUsuarios su = new ServUsuarios(new UniversityDbContext());
+var usuario =su.LoginAsync("usuario1", "Hola");
+
 static void RevisarServicioPersonas()
 {
     ServPersonas sp = new ServPersonas(new UniversityDbContext());

@@ -1,6 +1,47 @@
-﻿@{
+﻿@model InfoAdministradoresVM
+
+@{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+@if (Model.Administradores != null)
+{
+    <select class="form-select fa" id="administradores">
+        @foreach (var it in Model.Administradores)
+        {
+            <option class="fas" value="@it.id">
+                @it.dni @it.nombre
+            </option>
+        }
+    </select>
+}
+
+<select class="form-select fa" id="administradores2">
+</select>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ConsultarAdministradores($("#administradores2"));
+        });
+
+        function ConsultarAdministradores(sel) {
+            $.ajax({
+                type: "GET",
+                url: 'https://localhost:7214/api/Administradores',
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (key, registro) {
+                        sel.append('<option class="fas" value=' + registro.id + '>' + registro.dni + "  " + registro.nombre + '</option>');
+                    });
+                },
+                error: function (data) {
+                    // alert('error');
+                }
+            });
+        }
+    </script>
+}

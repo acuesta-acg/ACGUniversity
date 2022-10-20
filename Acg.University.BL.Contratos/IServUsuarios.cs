@@ -20,6 +20,8 @@ namespace Acg.University.BL.Contratos
         Task<Usuario?> ConsultarUsuarioAsync(string login);
         Usuario? Login(string login, string pwd);
         Task<Usuario?> LoginAsync(string login, string pwd);
+        Usuario? LoginMalo(string login, string pwd);
+        Task<Usuario?> LoginMaloAsync(string login, string pwd);
         List<Usuario> ListaUsuarios();
         Task<List<Usuario>> ListaUsuariosAsync();
         void BorrarUsuario(int id);
