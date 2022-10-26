@@ -18,12 +18,10 @@ namespace UniversityAPI.Controllers
     public class AdministradoresController : ControllerBase
     {
         private readonly IServPersonas _servPersonas;
-        private readonly IDataProtector _prot;
 
-        public AdministradoresController(IServPersonas servPersonas, IDataProtectionProvider prov)
+        public AdministradoresController(IServPersonas servPersonas)
         {
             _servPersonas = servPersonas;
-            _prot = prov.CreateProtector("sdafasdfasdf");
         }
 
         /*
@@ -44,9 +42,6 @@ namespace UniversityAPI.Controllers
         [MapToApiVersion("1.0")]
         public async Task<IActionResult> Lista()
         {
-            var txt = _prot.Protect("Hola soy Coco...");
-            var txt2 = _prot.Unprotect(txt);
-
             var l =(await _servPersonas.ListaAdministradoresAsync())
                .Select(x => new AdministradorVM()
                {
@@ -125,7 +120,6 @@ namespace UniversityAPI.Controllers
         }
     }
 
-
     [Route("api/Administradores")]
     [ApiController]
     [ApiVersion("2.0")]
@@ -158,5 +152,4 @@ namespace UniversityAPI.Controllers
             return (l.Count == 0) ? NotFound() : Ok(l);
         }
     }
-
 }
