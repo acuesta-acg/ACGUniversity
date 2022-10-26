@@ -6,6 +6,10 @@ namespace UniversityGRPC.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {
+        // Api Rest -> HTTP/1.1  y JSon
+
+        // gRPC -> HTTP/2 - protobuf
+
         private readonly IConfiguration _configuration;
         private readonly ILogger<GreeterService> _logger;
         /*

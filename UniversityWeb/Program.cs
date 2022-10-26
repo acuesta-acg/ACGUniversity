@@ -11,7 +11,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR().AddMessagePackProtocol();
 
 builder.Services.AddHttpClient();
+
+
 //builder.Services.AddScoped<IServicioApi, ServicioApi>();
+
 builder.Services.AddScoped<IServicioApi, ServicioGRPC>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

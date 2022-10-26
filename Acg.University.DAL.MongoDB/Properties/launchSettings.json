@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Acg.University.DAL.MongoDB": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:64511;http://localhost:64519"
+    }
+  }
+}

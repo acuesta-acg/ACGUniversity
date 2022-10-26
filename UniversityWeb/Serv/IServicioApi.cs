@@ -7,6 +7,6 @@ namespace UniversityWeb.Serv
     {
         Task<ClaimsPrincipal> Login(string usr, string pwd);
         Task<List<InfoPersonalVM>> ConsultarAdministradoresAsync();
-        void EnviarMsg(string msg);
+        void EnviarMsg(string msg); 
     }
 }

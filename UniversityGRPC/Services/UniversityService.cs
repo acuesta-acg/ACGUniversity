@@ -32,6 +32,7 @@ namespace UniversityGRPC.Services
             _sPersonas = sPersonas;
         }
 
+        //  rpc Login (Credenciales) returns (JwtToken);
         public override Task<JwtToken> Login(Credenciales cred, ServerCallContext context)
         {
             string tk = "";
@@ -65,7 +66,7 @@ namespace UniversityGRPC.Services
             });
         }
 
-        //[Authorize]
+        // [Authorize]
         public override Task<ListaAdmin> ListaAdministradores(Nada info, ServerCallContext context)
         {
             var l = new ListaAdmin();

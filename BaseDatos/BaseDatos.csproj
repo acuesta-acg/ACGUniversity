@@ -15,4 +15,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\acues\source\repos\ACGUniversity\BaseDatos\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\acues\source\repos\ACGUniversity\BaseDatos\.editorconfig" />
+  </ItemGroup>
+
 </Project>
