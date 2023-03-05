@@ -39,7 +39,7 @@ builder.Services.AddCors(opc =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Host.UseSerilog(((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration)));
+builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 
 /*
  * Verbose
@@ -90,6 +90,7 @@ builder.Services.AddSwaggerGen(opciones =>
 });
 
 // ---------  Nuestros Servicios --------
+
 builder.Services.AddScoped<IServPersonas, ServPersonas>();
 builder.Services.AddScoped<IServUsuarios, ServUsuarios>();
 

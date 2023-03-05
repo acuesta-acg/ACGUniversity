@@ -54,5 +54,9 @@ namespace AcgUniversity.BL.Servicios.Test
         private UniversityDbContext Conex() => new UniversityDbContext(
                 new DbContextOptionsBuilder<UniversityDbContext>()
                 .UseInMemoryDatabase("BDUniversityPru").Options);
+
+        private UniversityDbContext UniversityDbContext() => new UniversityDbContext(
+            new DbContextOptionsBuilder<UniversityDbContext>()
+            .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ACGUniversity;Integrated Security=True").Options);
     }
 }
